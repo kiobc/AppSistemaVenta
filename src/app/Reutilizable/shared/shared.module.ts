@@ -1,54 +1,51 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import{MatCardModule} from '@angular/material/card';
-import{MatInputModule} from '@angular/material/input';
-import{MatProgressBarModule} from '@angular/material/progress-bar';
-import{MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import {MatGridListModule} from '@angular/material/grid-list';
-import{MatToolbarModule} from '@angular/material/toolbar';
+import { MatGridListModule } from '@angular/material/grid-list';
 
-import {LayoutModule} from '@angular/cdk/layout';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
-import {MatListModule} from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { MatNativeDateModule } from '@angular/material/core';
-import {MomentDateModule} from '@angular/material-moment-adapter';
-
-
-
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    MatDatepickerModule, // Mover de providers a imports
+    MatNativeDateModule,
+    MatSidenavModule // Mover de providers a imports
   ],
   exports: [
-    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    MatToolbarModule,
     MatCardModule,
     MatInputModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatGridListModule,
-    MatToolbarModule,
     LayoutModule,
     MatSidenavModule,
     MatButtonModule,
@@ -60,13 +57,7 @@ import {MomentDateModule} from '@angular/material-moment-adapter';
     MatSnackBarModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MomentDateModule],
-    providers: [
-      MatDatepickerModule,
-    MatNativeDateModule
-    ]
-
+    MomentDateModule
+  ]
 })
 export class SharedModule { }
-
-
