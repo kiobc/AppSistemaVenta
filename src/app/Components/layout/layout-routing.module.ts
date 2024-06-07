@@ -6,14 +6,21 @@ import { HistorialVentaComponent } from './Pages/historial-venta/historial-venta
 import { ProductoComponent } from './Pages/producto/producto.component';
 import { VentaComponent } from './Pages/venta/venta.component';
 import { ReporteComponent } from './Pages/reporte/reporte.component';
+import { LayoutComponent } from './layout.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'usuario', component: UsuarioComponent },
-  { path: 'historial-venta', component: HistorialVentaComponent },
-  { path: 'producto', component: ProductoComponent },
-  { path: 'venta', component: VentaComponent },
-  { path: 'reporte', component: ReporteComponent },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'usuarios', component: UsuarioComponent },
+      { path: 'productos', component: ProductoComponent },
+      { path: 'ventas', component: VentaComponent },
+      { path: 'historial_venta', component: HistorialVentaComponent },
+      { path: 'reportes', component: ReporteComponent },
+    ]
+  }
 ];
 
 @NgModule({

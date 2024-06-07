@@ -1,15 +1,14 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { routes } from './app.routes';
+import { AppRoutingModule,routes } from './app.routes'; // Assuming routes is exported from app.routes.ts
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       BrowserModule,
-      BrowserAnimationsModule
-    ),
-    provideRouter(routes)
+      BrowserAnimationsModule,
+      RouterModule.forRoot(routes) )
   ]
 };
