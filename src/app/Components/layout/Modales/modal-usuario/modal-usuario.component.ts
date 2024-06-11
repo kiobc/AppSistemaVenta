@@ -8,13 +8,13 @@ import { UsuarioService } from '../../../../Services/usuario.service';
 import{UtilidadService} from '../../../../Reutilizable/utilidad.service';
 
 @Component({
-  selector: 'app-modal-usurio',
+  selector: 'app-modal-usuario',
   templateUrl: './modal-usuario.component.html',
   styleUrl: './modal-usuario.component.css'
 })
 export class ModalUsuarioComponent implements OnInit  {
  
-  formularioUsario: FormGroup;
+  formularioUsuario: FormGroup;
   ocultarPassword:boolean = true;
   tituloAccion:string = "Agregar";
   botonAccion:string = "Guardar";
@@ -24,11 +24,11 @@ export class ModalUsuarioComponent implements OnInit  {
     private modalActual: MatDialogRef<ModalUsuarioComponent>,
   @Inject(MAT_DIALOG_DATA) public datosUsuario: Usuario,
   private fb: FormBuilder,
-  private rolService:RolService,
-  private usuarioService:UsuarioService,
-  private utilidadService:UtilidadService
+  private _rolService:RolService,
+  private _usuarioService:UsuarioService,
+  private _utilidadService:UtilidadService
   ) {
-    this.formularioUsario = this.fb.group({
+    this.formularioUsuario = this.fb.group({
       nombre: ['', Validators.required],
       correo: ['', Validators.required],
       idRol: ['', Validators.required],
@@ -40,7 +40,7 @@ export class ModalUsuarioComponent implements OnInit  {
       this.tituloAccion = "Editar";
       this.botonAccion = "Actualizar";
     }
-     this.rolService.lista().subscribe({
+     this._rolService.lista().subscribe({
       next:(data)=>{
         if(data.status) this.listaRoles = data.value;
       },
@@ -49,7 +49,7 @@ export class ModalUsuarioComponent implements OnInit  {
    }
   ngOnInit(): void {
     if(this.datosUsuario!=null){
-      this.formularioUsario.patchValue({
+      this.formularioUsuario.patchValue({
         nombreCompleto: this.datosUsuario.nombreCompleto,
         correo: this.datosUsuario.correo,
         idRol: this.datosUsuario.idRol,
@@ -63,34 +63,34 @@ export class ModalUsuarioComponent implements OnInit  {
   guardarEditar_Usuario(){
   const usuario:Usuario={
     idUsuario: this.datosUsuario == null ? 0 : this.datosUsuario.idUsuario,
-    nombreCompleto: this.formularioUsario.value.nombreCompleto,
-    correo: this.formularioUsario.value.correo,
-    idRol: this.formularioUsario.value.idRol,
+    nombreCompleto: this.formularioUsuario.value.nombreCompleto,
+    correo: this.formularioUsuario.value.correo,
+    idRol: this.formularioUsuario.value.idRol,
     rolDescripcion: "",
-    clave: this.formularioUsario.value.clave,
-    esActivo: parseInt(this.formularioUsario.value.esActivo),
+    clave: this.formularioUsuario.value.clave,
+    esActivo: parseInt(this.formularioUsuario.value.esActivo),
     nombre: ''
   }
   if(this.datosUsuario!=null){
-    this.usuarioService.guardar(usuario).subscribe({
+    this._usuarioService.guardar(usuario).subscribe({
       next:(data)=>{
         if(data.status){
-          this.utilidadService.mostrarAlerta("El usuario fue registrado con éxito","Éxito");
+          this._utilidadService.mostrarAlerta("El usuario fue registrado con éxito","Éxito");
           this.modalActual.close("true");
         }else
-          this.utilidadService.mostrarAlerta("No se pudo crear al usuario","Error");
+          this._utilidadService.mostrarAlerta("No se pudo crear al usuario","Error");
         
       },
       error:(e)=>{}
     })
   }else{
-    this.usuarioService.editar(usuario).subscribe({
+    this._usuarioService.editar(usuario).subscribe({
       next:(data)=>{
         if(data.status){
-          this.utilidadService.mostrarAlerta("El usuario fue editado","Éxito");
+          this._utilidadService.mostrarAlerta("El usuario fue editado","Éxito");
           this.modalActual.close("true");
         }else
-          this.utilidadService.mostrarAlerta("No se pudo editar al usuario","Error");
+          this._utilidadService.mostrarAlerta("No se pudo editar al usuario","Error");
         
       },
       error:(e)=>{}

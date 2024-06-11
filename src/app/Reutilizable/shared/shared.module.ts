@@ -62,7 +62,8 @@ import {MomentDateModule} from '@angular/material-moment-adapter';
     MatNativeDateModule,
     MomentDateModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    
   ],
   providers:[
     MatDatepickerModule,
