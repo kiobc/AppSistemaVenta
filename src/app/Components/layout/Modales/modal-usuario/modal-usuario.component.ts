@@ -63,6 +63,11 @@ export class ModalUsuarioComponent implements OnInit {
   }
 
   guardarEditar_Usuario() {
+    if (this.formularioUsuario.invalid) {
+      this._utilidadService.mostrarAlerta('Por favor complete los campos requeridos.', 'Error');
+      return;
+    }
+
     const usuario: Usuario = {
       idUsuario: this.datosUsuario == null ? 0 : this.datosUsuario.idUsuario,
       nombreCompleto: this.formularioUsuario.value.nombreCompleto,
@@ -86,11 +91,13 @@ export class ModalUsuarioComponent implements OnInit {
         },
         error: (e) => {
           console.error(e);
+          this._utilidadService.mostrarAlerta('Ocurrió un error al intentar crear el usuario', 'Error');
         }
       });
     } else {
       this._usuarioService.editar(usuario).subscribe({
         next: (data) => {
+          console.log('Respuesta del servidor:', data);  // Añadir log para depuración
           if (data.status) {
             this._utilidadService.mostrarAlerta("El usuario fue editado con éxito", "Éxito");
             this.modalActual.close("true");
@@ -100,6 +107,7 @@ export class ModalUsuarioComponent implements OnInit {
         },
         error: (e) => {
           console.error(e);
+          this._utilidadService.mostrarAlerta('Ocurrió un error al intentar editar el usuario', 'Error');
         }
       });
     }
