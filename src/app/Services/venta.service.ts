@@ -14,7 +14,7 @@ export class VentaService {
   private urlApi:string=enviroment.endpoint+"Venta/";
   constructor(private http:HttpClient) { }
 
-  resgitar(request:Venta):Observable<ResponseApi>{
+  registrar(request:Venta):Observable<ResponseApi>{
     return this.http.post<ResponseApi>(`${this.urlApi}Registrar`,request);
   }
 
