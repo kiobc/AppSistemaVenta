@@ -26,6 +26,7 @@ export class VentaComponent implements OnInit {
   productoSeleccionado!: Producto;
   tipoPagoPorDefecto: string = "EFECTIVO";
   totalPagar: number = 0;
+  fechaRegistro: string = "";
 
   formularioProductoVenta: FormGroup;
   columnaTabla: string[] = ['producto', 'cantidad', 'precio', 'total', 'accion'];
@@ -108,7 +109,8 @@ export class VentaComponent implements OnInit {
       const request: Venta = {
         tipoPago: this.tipoPagoPorDefecto,
         totalTexto: this.totalPagar.toFixed(2),
-        detalleVenta: this.listaProductosParaVenta
+        detalleVenta: this.listaProductosParaVenta,
+        fechaRegistro:new Date().toISOString().slice(0, 10),
       };
 
       this._ventaService.registrar(request).subscribe({

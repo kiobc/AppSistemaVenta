@@ -18,8 +18,8 @@ export class VentaService {
     return this.http.post<ResponseApi>(`${this.urlApi}Registrar`,request);
   }
 
-  historial(buscarPor:string, numeroVenta:string, fechaInicio:string,fechaFin:string):Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(`${this.urlApi}Historial?buscaPor=${buscarPor}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
+  historial(buscarPor:string,numeroVenta:string,fechaInicio:string,fechaFin:string):Observable<ResponseApi>{
+    return this.http.get<ResponseApi>(`${this.urlApi}Historial?buscarPor=${buscarPor}&numeroVenta=${numeroVenta}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
   }
 
   reporte(fechaInicio:string,fechaFin:string):Observable<ResponseApi>{
