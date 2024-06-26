@@ -2,6 +2,7 @@ export interface Menu {
     idMenu: number,
     nombre: string,
     icono: string,
-    url: string
+    url: string;
+    permisos: string[];
    
 }

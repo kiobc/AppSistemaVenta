@@ -10,38 +10,47 @@
       {{correoUsuario}}|{{rolUsuario}}
     </label>
 
+    <button mat-icon-button (click)="cerrarSesion()">
+      <mat-icon>logout</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container>
   <mat-sidenav #sidenav opened="true" mode="side" style="width:200px;">
     <mat-nav-list>
-      <a mat-list-item routerLink="/pages/dashboard">
+      <!-- Mostrar DashBoard solo para administradores -->
+      <a mat-list-item *ngIf="rolUsuario === 'Administrador'" routerLink="/pages/dashboard">
         <mat-icon mat-list-icon>dashboard</mat-icon>
         <span style="margin-left: 16px;">DashBoard</span>
       </a>
 
-      <a mat-list-item routerLink="/pages/usuarios">
+      <!-- Mostrar Usuarios solo para administradores -->
+      <a mat-list-item *ngIf="rolUsuario === 'Administrador'" routerLink="/pages/usuarios">
         <mat-icon mat-list-icon>group</mat-icon>
         <span style="margin-left: 16px;">Usuarios</span>
       </a>
 
-      <a mat-list-item routerLink="/pages/productos">
+      <!-- Mostrar Productos para administradores y supervisores -->
+      <a mat-list-item *ngIf="rolUsuario === 'Administrador' || rolUsuario === 'Supervisor'" routerLink="/pages/productos">
         <mat-icon mat-list-icon>collections_bookmark</mat-icon>
         <span style="margin-left: 16px;">Productos</span>
       </a>
 
-      <a mat-list-item routerLink="/pages/ventas">
+      <!-- Mostrar Venta para todos los roles -->
+      <a mat-list-item *ngIf="rolUsuario === 'Administrador' || rolUsuario === 'Supervisor' || rolUsuario === 'Empleado'" routerLink="/pages/ventas">
         <mat-icon mat-list-icon>currency_exchange</mat-icon>
         <span style="margin-left: 16px;">Venta</span>
       </a>
 
-      <a mat-list-item routerLink="/pages/historial_venta">
+      <!-- Mostrar Historial de Ventas para todos los roles -->
+      <a mat-list-item *ngIf="rolUsuario === 'Administrador' || rolUsuario === 'Supervisor' || rolUsuario === 'Empleado'" routerLink="/pages/historial_venta">
         <mat-icon mat-list-icon>edit_note</mat-icon>
         <span style="margin-left: 16px;">Historial Ventas</span>
       </a>
 
-      <a mat-list-item routerLink="/pages/reportes">
+      <!-- Mostrar Reportes para administradores y supervisores -->
+      <a mat-list-item *ngIf="rolUsuario === 'Administrador' || rolUsuario === 'Supervisor'" routerLink="/pages/reportes">
         <mat-icon mat-list-icon>receipt</mat-icon>
         <span style="margin-left: 16px;">Reportes</span>
       </a>
