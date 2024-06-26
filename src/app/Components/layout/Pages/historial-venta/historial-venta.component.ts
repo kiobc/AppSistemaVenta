@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
-import * as moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import moment from 'moment';
 import { ModalDetalleVentaComponent } from '../../Modales/modal-detalle-venta/modal-detalle-venta.component';
 import { Venta } from '../../../../Interfaces/venta';
 import { VentaService } from '../../../../Services/venta.service';
 import { UtilidadService } from '../../../../Reutilizable/utilidad.service';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 export const MY_DATA_FORMATS = {
   parse: {
@@ -17,6 +18,8 @@ export const MY_DATA_FORMATS = {
   display: {
     dateInput: 'DD/MM/YYYY',
     monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
   },
 };
 
@@ -24,7 +27,13 @@ export const MY_DATA_FORMATS = {
   selector: 'app-historial-venta',
   templateUrl: './historial-venta.component.html',
   styleUrls: ['./historial-venta.component.css'],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATA_FORMATS }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATA_FORMATS },],
 })
 export class HistorialVentaComponent implements OnInit, AfterViewInit {
   formularioBusqueda: FormGroup;
@@ -69,15 +78,23 @@ export class HistorialVentaComponent implements OnInit, AfterViewInit {
     const buscarPor = this.formularioBusqueda.value.buscarPor;
 
     if (buscarPor === 'fecha') {
-      const fechaInicio = (this.formularioBusqueda.value.fechaInicio);
-      const fechaFin = (this.formularioBusqueda.value.fechaFin);
+      const fechaInicio = this.formularioBusqueda.value.fechaInicio;
+      const fechaFin = this.formularioBusqueda.value.fechaFin;
 
-      if (!fechaInicio.isValid() || !fechaFin.isValid()) {
+      if (!fechaInicio || !fechaFin) {
         this._utilidadService.mostrarAlerta('Debe ingresar ambas fechas.', 'Oops');
         return;
       }
 
-      this._ventaService.historial(buscarPor, '', fechaInicio.format('DD/MM/YYYY'), fechaFin.format('DD/MM/YYYY')).subscribe({
+      const fechaInicioMoment = moment(fechaInicio, 'DD/MM/YYYY', true);
+      const fechaFinMoment = moment(fechaFin, 'DD/MM/YYYY', true);
+
+      if (!fechaInicioMoment.isValid() || !fechaFinMoment.isValid()) {
+        this._utilidadService.mostrarAlerta('Las fechas deben tener el formato DD/MM/YYYY.', 'Oops');
+        return;
+      }
+
+      this._ventaService.historial(buscarPor, '', fechaInicioMoment.format('DD/MM/YYYY'), fechaFinMoment.format('DD/MM/YYYY')).subscribe({
         next: (data) => {
           if (data.status) {
             this.dataListaVentas.data = data.value;
